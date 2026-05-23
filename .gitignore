@@ -1,0 +1,19 @@
+# Build artifacts
+/build/
+*.o
+*.obj
+*.elf
+*.bin
+*.BIN
+
+# Local notes and planning
+/temp/
+
+# Editor / OS files
+.DS_Store
+Thumbs.db
+
+# Keep workspace settings optional
+.vscode/*
+!.vscode/settings.json
+!.vscode/c_cpp_properties.json

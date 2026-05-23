@@ -1,0 +1,20 @@
+{
+    "configurations": [
+        {
+            "name": "aarch64-cross",
+            "includePath": [
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/Shell",
+                "${workspaceFolder}/compiler",
+                "${workspaceFolder}/editor",
+                "${workspaceFolder}/../myLib/include"
+            ],
+            "defines": [
+                "__AARCH64__"
+            ],
+            "cStandard": "c11",
+            "intelliSenseMode": "gcc-x64"
+        }
+    ],
+    "version": 4
+}
