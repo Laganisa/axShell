@@ -4,7 +4,7 @@
 _start:
     bl shell_main
     mov w0, w0
-    bl mylib_exit
+    bl axlib_exit
 
 1:
     b 1b

@@ -3,7 +3,7 @@ CC            := $(CROSS_COMPILE)gcc
 LD            := $(CROSS_COMPILE)ld
 OBJCOPY       := $(CROSS_COMPILE)objcopy
 
-MYLIB_DIR     ?= ../myLib
+axLIB_DIR     ?= ../axLib
 BUILD_DIR     ?= build
 OBJ_DIR       := $(BUILD_DIR)/obj
 
@@ -18,10 +18,10 @@ SRC_S         := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.S))
 OBJS          := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_C)) \
                  $(patsubst %.S,$(OBJ_DIR)/%.o,$(SRC_S))
 
-CPPFLAGS      += -Iinclude -I$(MYLIB_DIR)/include
+CPPFLAGS      += -Iinclude -I$(axLIB_DIR)/include
 CFLAGS        += -mcpu=cortex-a72 -ffreestanding -fno-builtin -nostdlib -Wall -Wextra -O2
 LDFLAGS       += -T linker.ld
-LDLIBS        += $(MYLIB_DIR)/build/libmylib.a
+LDLIBS        += $(axLIB_DIR)/build/libaxlib.a
 
 FM_EXEC_MAGIC ?= 0x4D594F535441534B
 FM_EXEC_MODE  ?= 1
@@ -29,12 +29,12 @@ FM_EXEC_MODE  ?= 1
 MKDIR_P       ?= mkdir -p
 RM_RF         ?= rm -rf
 
-.PHONY: all clean mylib
+.PHONY: all clean axlib
 
 all: $(TARGET_BIN)
 
-mylib:
-	@$(MAKE) -C $(MYLIB_DIR) --no-print-directory
+axlib:
+	@$(MAKE) -C $(axLIB_DIR) --no-print-directory
 
 $(OBJ_DIR):
 	@$(MKDIR_P) $@
@@ -53,7 +53,7 @@ $(OBJ_DIR)/%.o: %.S | $(OBJ_DIR) $(OBJ_DIR)/Shell $(OBJ_DIR)/compiler $(OBJ_DIR)
 	@echo "AS  $<"
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-$(TARGET_ELF): mylib $(OBJS) | $(BUILD_DIR)
+$(TARGET_ELF): axlib $(OBJS) | $(BUILD_DIR)
 	@echo "LD  $@"
 	$(LD) $(LDFLAGS) -o $@ $(OBJS) $(LDLIBS)
 

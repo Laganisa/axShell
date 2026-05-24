@@ -3,14 +3,15 @@
 #include "kernel.h"
 #include "shell.h"
 
-#define STDIN_FD  0
+#define STDIN_FD 0
 #define STDOUT_FD 1
 
 static size_t str_len(const char *s)
 {
     size_t len = 0;
 
-    while (s[len] != '\0') {
+    while (s[len] != '\0')
+    {
         len++;
     }
 
@@ -21,8 +22,10 @@ int shell_str_eq(const char *lhs, const char *rhs)
 {
     size_t i = 0;
 
-    while (lhs[i] != '\0' && rhs[i] != '\0') {
-        if (lhs[i] != rhs[i]) {
+    while (lhs[i] != '\0' && rhs[i] != '\0')
+    {
+        if (lhs[i] != rhs[i])
+        {
             return 0;
         }
         i++;
@@ -33,33 +36,39 @@ int shell_str_eq(const char *lhs, const char *rhs)
 
 void shell_write(const char *text)
 {
-    mylib_write(STDOUT_FD, text, str_len(text));
+    axlib_write(STDOUT_FD, text, str_len(text));
 }
 
 static long read_line(char *buf, size_t size)
 {
     size_t used = 0;
 
-    if (size == 0) {
+    if (size == 0)
+    {
         return -1;
     }
 
-    while (used + 1 < size) {
+    while (used + 1 < size)
+    {
         char ch = 0;
-        long ret = mylib_read(STDIN_FD, &ch, 1);
+        long ret = axlib_read(STDIN_FD, &ch, 1);
 
-        if (ret <= 0) {
-            if (used == 0) {
+        if (ret <= 0)
+        {
+            if (used == 0)
+            {
                 return ret;
             }
             break;
         }
 
-        if (ch == '\r') {
+        if (ch == '\r')
+        {
             continue;
         }
 
-        if (ch == '\n') {
+        if (ch == '\n')
+        {
             break;
         }
 
@@ -81,12 +90,14 @@ static void show_help(void)
 
 static void run_command(const char *cmd)
 {
-    if (shell_str_eq(cmd, "compiler")) {
+    if (shell_str_eq(cmd, "compiler"))
+    {
         compiler_run();
         return;
     }
 
-    if (shell_str_eq(cmd, "editor")) {
+    if (shell_str_eq(cmd, "editor"))
+    {
         editor_run();
         return;
     }
@@ -100,31 +111,36 @@ int shell_main(void)
 {
     char cmd[SHELL_CMD_BUFFER_SIZE];
 
-    shell_write("myShell started.\n");
+    shell_write("axShell started.\n");
     shell_write("type 'help' for commands.\n");
 
-    for (;;) {
+    for (;;)
+    {
         long read_count;
 
         shell_write("root@localhost : ");
         read_count = read_line(cmd, sizeof(cmd));
 
-        if (read_count < 0) {
+        if (read_count < 0)
+        {
             shell_write("\ninput error\n");
             return 1;
         }
 
-        if (read_count == 0) {
+        if (read_count == 0)
+        {
             shell_write("\n");
-            mylib_yield();
+            axlib_yield();
             continue;
         }
 
-        if (shell_str_eq(cmd, "end")) {
+        if (shell_str_eq(cmd, "end"))
+        {
             break;
         }
 
-        if (shell_str_eq(cmd, "help")) {
+        if (shell_str_eq(cmd, "help"))
+        {
             show_help();
             continue;
         }
