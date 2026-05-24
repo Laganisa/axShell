@@ -114,7 +114,7 @@ int shell_main(void)
     shell_write("axShell started.\n");
     shell_write("type 'help' for commands.\n");
 
-    for (;;)
+    while (1)
     {
         long read_count;
 

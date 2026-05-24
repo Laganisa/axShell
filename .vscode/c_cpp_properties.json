@@ -7,7 +7,7 @@
                 "${workspaceFolder}/Shell",
                 "${workspaceFolder}/compiler",
                 "${workspaceFolder}/editor",
-                "${workspaceFolder}/../myLib/include"
+                "${workspaceFolder}/../axLib/include"
             ],
             "defines": [
                 "__AARCH64__"
