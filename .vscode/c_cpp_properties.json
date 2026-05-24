@@ -4,9 +4,6 @@
             "name": "aarch64-cross",
             "includePath": [
                 "${workspaceFolder}/include",
-                "${workspaceFolder}/Shell",
-                "${workspaceFolder}/compiler",
-                "${workspaceFolder}/editor",
                 "${workspaceFolder}/../axLib/include"
             ],
             "defines": [

@@ -7,12 +7,13 @@ axLIB_DIR     ?= ../axLib
 BUILD_DIR     ?= build
 OBJ_DIR       := $(BUILD_DIR)/obj
 
-TARGET_NAME   ?= SHELL
+# 최종 출력될 바이너리 이름을 SHELL.BIN으로 고정!
+TARGET_NAME   := SHELL
 TARGET_ELF    := $(BUILD_DIR)/$(TARGET_NAME).elf
 TARGET_IMAGE  := $(BUILD_DIR)/$(TARGET_NAME).bin
 TARGET_BIN    := $(TARGET_NAME).BIN
 
-SRC_DIRS      := Shell compiler editor
+SRC_DIRS      := src
 SRC_C         := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 SRC_S         := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.S))
 OBJS          := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_C)) \
@@ -42,15 +43,15 @@ $(OBJ_DIR):
 $(BUILD_DIR):
 	@$(MKDIR_P) $@
 
-$(OBJ_DIR)/Shell $(OBJ_DIR)/compiler $(OBJ_DIR)/editor:
-	@$(MKDIR_P) $@
-
-$(OBJ_DIR)/%.o: %.c | $(OBJ_DIR) $(OBJ_DIR)/Shell $(OBJ_DIR)/compiler $(OBJ_DIR)/editor
+# build/obj/src 하위 디렉토리 자동 생성 규칙 포함
+$(OBJ_DIR)/%.o: %.c | $(BUILD_DIR)
 	@echo "CC  $<"
+	@$(MKDIR_P) $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR)/%.o: %.S | $(OBJ_DIR) $(OBJ_DIR)/Shell $(OBJ_DIR)/compiler $(OBJ_DIR)/editor
+$(OBJ_DIR)/%.o: %.S | $(BUILD_DIR)
 	@echo "AS  $<"
+	@$(MKDIR_P) $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $< -o $@
 
 $(TARGET_ELF): axlib $(OBJS) | $(BUILD_DIR)
