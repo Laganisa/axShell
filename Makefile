@@ -13,7 +13,7 @@ TARGET_ELF    := $(BUILD_DIR)/$(TARGET_NAME).elf
 TARGET_IMAGE  := $(BUILD_DIR)/$(TARGET_NAME).bin
 TARGET_BIN    := $(TARGET_NAME).BIN
 
-SRC_DIRS      := src
+SRC_DIRS      := src asm
 SRC_C         := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.c))
 SRC_S         := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.S))
 OBJS          := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_C)) \
