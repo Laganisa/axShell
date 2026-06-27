@@ -3,7 +3,7 @@
 
 _start:
     bl shell_main
-    mov w0, w0
+    mov w0, w0 // nop
     bl axlib_exit
 
 1:

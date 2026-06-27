@@ -7,7 +7,6 @@ axLIB_DIR     ?= ../axLib
 BUILD_DIR     ?= build
 OBJ_DIR       := $(BUILD_DIR)/obj
 
-# 최종 출력될 바이너리 이름을 SHELL.BIN으로 고정!
 TARGET_NAME   := SHELL
 TARGET_ELF    := $(BUILD_DIR)/$(TARGET_NAME).elf
 TARGET_IMAGE  := $(BUILD_DIR)/$(TARGET_NAME).bin
@@ -20,17 +19,20 @@ OBJS          := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_C)) \
                  $(patsubst %.S,$(OBJ_DIR)/%.o,$(SRC_S))
 
 CPPFLAGS      += -Iinclude -I$(axLIB_DIR)/include
-CFLAGS        += -mcpu=cortex-a72 -ffreestanding -fno-builtin -nostdlib -Wall -Wextra -O2
-LDFLAGS       += -T linker.ld
+CFLAGS        += -mcpu=cortex-a72 -ffreestanding -fno-builtin -nostdlib -Wall -Wextra -O2 -fPIC
+LDFLAGS       += -T linker.ld -pie -z norelro --no-dynamic-linker
 LDLIBS        += $(axLIB_DIR)/build/libaxlib.a
 
-FM_EXEC_MAGIC ?= 0x4D594F535441534B
+# "axos" 매직 넘버
+FM_EXEC_MAGIC ?= 0x41584F535441534B
 FM_EXEC_MODE  ?= 1
 
 MKDIR_P       ?= mkdir -p
 RM_RF         ?= rm -rf
 
 .PHONY: all clean axlib
+
+$(info OBJS is $(OBJS))
 
 all: $(TARGET_BIN)
 
@@ -43,7 +45,6 @@ $(OBJ_DIR):
 $(BUILD_DIR):
 	@$(MKDIR_P) $@
 
-# build/obj/src 하위 디렉토리 자동 생성 규칙 포함
 $(OBJ_DIR)/%.o: %.c | $(BUILD_DIR)
 	@echo "CC  $<"
 	@$(MKDIR_P) $(@D)
@@ -65,6 +66,12 @@ $(TARGET_IMAGE): $(TARGET_ELF)
 $(TARGET_BIN): $(TARGET_IMAGE)
 	@echo "PACK  $@"
 	@python3 -c "from pathlib import Path; import struct; image = Path(r'$(TARGET_IMAGE)').read_bytes(); hdr = struct.pack('<QQQQ', int('$(FM_EXEC_MAGIC)', 0), int('$(FM_EXEC_MODE)', 0), 0, len(image)); Path(r'$(TARGET_BIN)').write_bytes(hdr + image)"
+	@echo "---------------------------------------"
+	@echo "axShell Build Success"
+	@echo "---------------------------------------"
 
 clean:
 	$(RM_RF) $(BUILD_DIR) $(TARGET_BIN)
+
+dump:
+	@$(CROSS_COMPILE)objdump -d $(TARGET_ELF)
