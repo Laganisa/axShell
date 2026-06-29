@@ -108,6 +108,8 @@ void hex_write(unsigned int n)
     }
 }
 
+
+// ! 여기 수정 필요
 long read_line(char *buf, size_t size)
 {
     size_t used = 0;
