@@ -31,22 +31,22 @@ int shell_str_eq(const char *lhs, const char *rhs)
     return lhs[i] == rhs[i];
 }
 
-/*
 void str_write(const char *text)
 {
     axlib_write(STDOUT_FD, text, str_len(text));
 }
-*/
 
+/*
 void str_write(const char *text)
 {
     while (*text != '\0')
     {
         char temp = *text;
         axlib_write(STDOUT_FD, &temp, 1);
-        text++;
-    }
+            text++;
+        }
 }
+*/
 
 void int_write(int n)
 {

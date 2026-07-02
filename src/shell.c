@@ -5,6 +5,8 @@
 #include "io.h"
 #include "defs.h"
 
+#include "uart_io.h"
+
 static void show_help(void)
 {
     // 도움 코드 작성
@@ -18,33 +20,24 @@ static void run_command(const char *cmd)
     str_write("\n");
 }
 
-void test_step3(void)
+void foo()
 {
-    char buf = 0x00;
-    str_write("STEP 3 START: Waiting for input...\n");
+    volatile uint32_t *uart_dr = (uint32_t *)0x09000000;
 
-    long ret = axlib_read(STDIN_FD, &buf, 1);
-
-    str_write("STEP 3: Read result (ret=");
-    int_write((int)ret);
-    str_write("), buf=0x");
-    hex_write((unsigned int)buf);
-    str_write("\n");
-
-    if (ret == 1 && buf != 0x00)
-    {
-        str_write("STEP 3 SUCCESS!\n");
-    }
-    else
-    {
-        str_write("STEP 3 FAIL: Buffer not updated correctly.\n");
-    }
+    *uart_dr = 'O';
 }
 
 int shell_main(void)
 {
+    volatile uint32_t *uart_dr = (uint32_t *)0x09000000;
+
+    *uart_dr = 'H';
+    foo();
+    str_write("SADSDA");
+
     while (1)
     {
-        str_write("A");
+        ;
     }
+    return 0;
 }
