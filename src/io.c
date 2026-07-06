@@ -3,34 +3,6 @@
 #include "io.h"
 #include "defs.h"
 
-static size_t str_len(const char *s)
-{
-    size_t len = 0;
-
-    while (s[len] != '\0')
-    {
-        len++;
-    }
-
-    return len;
-}
-
-int shell_str_eq(const char *lhs, const char *rhs)
-{
-    size_t i = 0;
-
-    while (lhs[i] != '\0' && rhs[i] != '\0')
-    {
-        if (lhs[i] != rhs[i])
-        {
-            return 0;
-        }
-        i++;
-    }
-
-    return lhs[i] == rhs[i];
-}
-
 /*
 void str_write(const char *text)
 {
@@ -128,7 +100,7 @@ long read_line(char *buf, size_t size)
         str_write("A\n");
 
         if (ret < 0)
-            return ret; // 진짜 에러
+            return ret;
 
         if (ret == 0)
         {
@@ -154,4 +126,42 @@ long read_line(char *buf, size_t size)
 
     buf[used] = '\0';
     return (long)used;
+}
+
+uint8_t parse(char *input, char *argv[], int max_args) 
+{
+    uint8_t i = 0;
+    uint8_t argc = 0;
+    while (input[i] != '\0')
+    {
+        //공백 넘기기
+        if(input[i] == ' ')
+        {
+            i++;
+            continue;
+        }
+        //NULL확인시 종료
+        if(input[i] == '\0') 
+        {
+            break;
+        }
+        argv[argc++] = &input[i]; // 문자열 시작 주소 입력
+        
+        if (argc >= max_args)
+        {
+            break;
+        }
+        //문자열 마지막 확인 
+        while (input[i] != ' ' && input[i] != '\0')
+        {
+            i++;
+        }
+        // 공백을 NULL로 변환
+        if (input[i] == ' ')
+        {
+            input[i] = '\0';
+            i++;
+        }
+    }
+    return argc; // 토큰 개수 반환
 }

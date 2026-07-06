@@ -15,5 +15,5 @@ void hex_write(unsigned int n);
 static size_t str_len(const char *s);
 int shell_str_eq(const char *lhs, const char *rhs);
 long read_line(char *buf, size_t size);
-
+uint8_t parse(char *input, char *argv[], int max_args);
 #endif
