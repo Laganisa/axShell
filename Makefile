@@ -19,8 +19,9 @@ OBJS          := $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRC_C)) \
                  $(patsubst %.S,$(OBJ_DIR)/%.o,$(SRC_S))
 
 CPPFLAGS      += -Iinclude -I$(axLIB_DIR)/include
-CFLAGS        += -mcpu=cortex-a72 -ffreestanding -fno-builtin -nostdlib -Wall -Wextra -O2 -fPIC
-LDFLAGS       += -T linker.ld -pie -z norelro --no-dynamic-linker
+CFLAGS        += -mcpu=cortex-a72 -ffreestanding -fno-builtin -nostdlib -Wall -Wextra -O2
+
+LDFLAGS       += -T linker.ld --no-dynamic-linker
 LDLIBS        += $(axLIB_DIR)/build/libaxlib.a
 
 # "axos" 매직 넘버
@@ -33,8 +34,7 @@ RM_RF         ?= rm -rf
 .PHONY: all clean axlib
 
 $(info OBJS is $(OBJS))
-
-all: $(TARGET_BIN)
+all: $(TARGET_ELF) $(TARGET_BIN)
 
 axlib:
 	@$(MAKE) -C $(axLIB_DIR) --no-print-directory
