@@ -49,14 +49,15 @@ int shell_main(void)
         {
         case HELP:
             str_write("");
-        
+            break;
         case CLEAR:
             str_write("\033[2J\033[H");
-        
+            break;
         default:
             str_write("unknown command: ");
             str_write(buffer);
             str_write("\n");
+            break;
         }
     }
     return 0;
