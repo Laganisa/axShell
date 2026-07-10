@@ -69,6 +69,8 @@ void hex_write(unsigned int n)
     }
 }
 
+
+// ! 여기 수정 필요
 long read_line(char *buf, size_t size)
 {
     if (!buf || size == 0)
@@ -81,7 +83,8 @@ long read_line(char *buf, size_t size)
         long ret = axlib_read(STDIN_FD, &ch, 1);
 
         if (ret < 0)
-            return ret; // 에러 처리
+            return ret;
+
         if (ret == 0)
             continue; // 데이터 없음, 계속 대기
 
@@ -93,4 +96,42 @@ long read_line(char *buf, size_t size)
 
     buf[used] = '\0';
     return (long)used;
+}
+
+uint8_t parse(char *input, char *argv[], int max_args) 
+{
+    uint8_t i = 0;
+    uint8_t argc = 0;
+    while (input[i] != '\0')
+    {
+        //공백 넘기기
+        if(input[i] == ' ')
+        {
+            i++;
+            continue;
+        }
+        //NULL확인시 종료
+        if(input[i] == '\0') 
+        {
+            break;
+        }
+        argv[argc++] = &input[i]; // 문자열 시작 주소 입력
+        
+        if (argc >= max_args)
+        {
+            break;
+        }
+        //문자열 마지막 확인 
+        while (input[i] != ' ' && input[i] != '\0')
+        {
+            i++;
+        }
+        // 공백을 NULL로 변환
+        if (input[i] == ' ')
+        {
+            input[i] = '\0';
+            i++;
+        }
+    }
+    return argc; // 토큰 개수 반환
 }
