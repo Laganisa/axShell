@@ -20,7 +20,6 @@ static void run_command(const char *cmd)
 
 int shell_main(void)
 {
-    test1();
 
     // 무한 정지
     while (1)
