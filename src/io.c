@@ -1,23 +1,12 @@
 #include <kernel.h>
+#include <string.h>
 
 #include "io.h"
 #include "defs.h"
 
-/*
 void str_write(const char *text)
 {
-    axlib_write(STDOUT_FD, text, str_len(text));
-}
-*/
-
-void str_write(const char *text)
-{
-    while (*text != '\0')
-    {
-        char temp = *text;
-        axlib_write(STDOUT_FD, &temp, 1);
-        text++;
-    }
+    axlib_write(STDOUT_FD, text, axlib_strlen(text));
 }
 
 void int_write(int n)
@@ -84,45 +73,26 @@ void hex_write(unsigned int n)
 // ! 여기 수정 필요
 long read_line(char *buf, size_t size)
 {
+    if (!buf || size == 0)
+        return -1;
     size_t used = 0;
 
-    if (size == 0)
+    while (used < size - 1)
     {
-        return -1;
-    }
-
-    while (used + 1 < size)
-    {
-        char ch = 0;
-
+        char ch;
         long ret = axlib_read(STDIN_FD, &ch, 1);
-
-        str_write("A\n");
 
         if (ret < 0)
             return ret;
 
         if (ret == 0)
-        {
-            // axlib_yield();
-            continue;
-        }
+            continue; // 데이터 없음, 계속 대기
 
-        if (ch == '\r')
-        {
-            str_write("R");
+        if (ch == '\n' || ch == '\r')
             break;
-        }
-
-        if (ch == '\n')
-        {
-            str_write("N");
-            break;
-        }
 
         buf[used++] = ch;
     }
-    str_write("C");
 
     buf[used] = '\0';
     return (long)used;

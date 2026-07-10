@@ -30,6 +30,8 @@ static int execute(const char *buffer)
 
 int shell_main(void)
 {
+
+    // 무한 정지
     while (1)
     {
         str_write("user_");
