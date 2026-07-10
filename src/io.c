@@ -1,51 +1,12 @@
 #include <kernel.h>
+#include <string.h>
 
 #include "io.h"
 #include "defs.h"
 
-static size_t str_len(const char *s)
-{
-    size_t len = 0;
-
-    while (s[len] != '\0')
-    {
-        len++;
-    }
-
-    return len;
-}
-
-int shell_str_eq(const char *lhs, const char *rhs)
-{
-    size_t i = 0;
-
-    while (lhs[i] != '\0' && rhs[i] != '\0')
-    {
-        if (lhs[i] != rhs[i])
-        {
-            return 0;
-        }
-        i++;
-    }
-
-    return lhs[i] == rhs[i];
-}
-
-/*
 void str_write(const char *text)
 {
-    axlib_write(STDOUT_FD, text, str_len(text));
-}
-*/
-
-void str_write(const char *text)
-{
-    while (*text != '\0')
-    {
-        char temp = *text;
-        axlib_write(STDOUT_FD, &temp, 1);
-        text++;
-    }
+    axlib_write(STDOUT_FD, text, axlib_strlen(text));
 }
 
 void int_write(int n)
@@ -110,45 +71,25 @@ void hex_write(unsigned int n)
 
 long read_line(char *buf, size_t size)
 {
+    if (!buf || size == 0)
+        return -1;
     size_t used = 0;
 
-    if (size == 0)
+    while (used < size - 1)
     {
-        return -1;
-    }
-
-    while (used + 1 < size)
-    {
-        char ch = 0;
-
+        char ch;
         long ret = axlib_read(STDIN_FD, &ch, 1);
 
-        str_write("A\n");
-
         if (ret < 0)
-            return ret; // 진짜 에러
-
+            return ret; // 에러 처리
         if (ret == 0)
-        {
-            // axlib_yield();
-            continue;
-        }
+            continue; // 데이터 없음, 계속 대기
 
-        if (ch == '\r')
-        {
-            str_write("R");
+        if (ch == '\n' || ch == '\r')
             break;
-        }
-
-        if (ch == '\n')
-        {
-            str_write("N");
-            break;
-        }
 
         buf[used++] = ch;
     }
-    str_write("C");
 
     buf[used] = '\0';
     return (long)used;
