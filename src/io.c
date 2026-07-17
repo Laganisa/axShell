@@ -9,9 +9,9 @@ void str_write(const char *text)
     axlib_write(STDOUT_FD, text, axlib_strlen(text));
 }
 
-void file_crate(const char *path, int mod)
+void file_crate(const char *path, int mode, uint32_t size)
 {
-    axlib_crate(path, mod);
+    axlib_creat(path, mode, size);
 }
 
 void file_open(const char *path, int flag)

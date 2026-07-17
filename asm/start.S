@@ -2,7 +2,7 @@
 .global _start
 
 _start:
-    bl shell_main
+    bl main
     mov w0, w0 // nop
     bl axlib_exit
 

@@ -28,10 +28,27 @@ static int execute(const char *buffer)
     str_write("\n");
 }
 
-int shell_main(void)
+int main(void)
+{
+    debug_main();
+    return 0;
+}
+
+void debug_main(void)
+{
+    str_write("debug shell main\n");
+    file_crate("test", file_auth("0777"), 100);
+
+    str_write("inf loop\n");
+    while (1)
+    {
+        ;
+    }
+}
+
+void shell_main(void)
 {
 
-    // 무한 정지
     while (1)
     {
         str_write("user_");
@@ -64,5 +81,4 @@ int shell_main(void)
             break;
         }
     }
-    return 0;
 }
