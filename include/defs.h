@@ -14,8 +14,10 @@
 // 파일 플레그
 enum FILE_FLAGS
 {
-    READ_ONLY = 1,
-    READ_WRITE
+    DEV = 0b0,
+    FILE_READ_ONLY = 1,
+    FILE_WRIT_ONLY,
+    FILE_READ_WRITE = 0b1111
 };
 
 enum CMD

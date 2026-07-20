@@ -37,9 +37,15 @@ int main(void)
 void debug_main(void)
 {
     str_write("debug shell main\n");
-    file_crate("test", file_auth("0777"), 100);
+    file_crate("test", file_chg_auth("0777"), 4096);
 
-    str_write("inf loop\n");
+    str_write("pass 1\n");
+    file_open("test", FILE_READ_WRITE);
+    str_write("hello world!");
+    file_close();
+    str_write("pass 3\n");
+
+    str_write("\ninf loop\n");
     while (1)
     {
         ;
