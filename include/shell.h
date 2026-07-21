@@ -1,5 +1,5 @@
-#ifndef _SHELL_H_
-#define _SHELL_H_
+#ifndef __SHELL_MAIN_H__
+#define __SHELL_MAIN_H__
 
 int main(void);
 void debug_main(void);

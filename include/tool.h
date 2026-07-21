@@ -1,5 +1,5 @@
-#ifndef _TOOL_H_
-#define _TOOL_H_
+#ifndef __TOOL_H__
+#define __TOOL_H__
 
 #include <kernel.h>
 #include <types.h>

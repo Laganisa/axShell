@@ -1,5 +1,5 @@
-#ifndef _IO_H_
-#define _IO_H_
+#ifndef __SHELL_IO_H__
+#define __SHELL_IO_H__
 
 #include <types.h>
 

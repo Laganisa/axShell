@@ -1,5 +1,5 @@
-#ifndef _DEFS_H_
-#define _DEFS_H_
+#ifndef __SHELL_DEFS_H__
+#define __SHELL_DEFS_H__
 
 // 시스템 콜 관련
 #define STDIN_FD 0
