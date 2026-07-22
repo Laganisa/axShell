@@ -9,7 +9,7 @@ void str_write(const char *text)
     axlib_write(STDOUT_FD, text, axlib_strlen(text));
 }
 
-void file_crate(const char *path, int mode, uint32_t size)
+void file_creat(const char *path, int mode, uint32_t size)
 {
     axlib_creat(path, mode, size);
 }
@@ -100,7 +100,9 @@ long read_line(char *buf, size_t size)
             return ret;
 
         if (ret == 0)
-            continue; // 데이터 없음, 계속 대기
+            // 데이터 없음, 계속 대기
+            // ? 나중에 양보 함수 만들 예정
+            continue;
 
         if (ch == '\n' || ch == '\r')
             break;

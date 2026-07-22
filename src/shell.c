@@ -34,16 +34,57 @@ int main(void)
     return 0;
 }
 
+#pragma region test
+
+/*
+    아직 파일 디스크럽터 함수를 만들기 전
+    나중에 디스크럽터 테이블을 만들고 난 뒤 사용법이 수정될 예정
+*/
+
+// 파일 생성 함수
+void foo_file_creat(void)
+{
+    // 파일 생성
+    // 파일 이름, 파일 권한
+    // ! 주의 파일 권한 함수에 꼭 4바이트 숫자 값을 넣어야함
+    // 파일 크기 B 기준
+    file_creat("test", file_chg_auth("0777"), 4096);
+}
+
+// 파일 쓰기 함수
+void foo_file_write(void)
+{
+    // 파일을 열기
+    // 파일 이름, 방식
+    file_open("test", FILE_READ_WRITE);
+
+    // 파일을 열었으니
+    // 파일 내부에 쓰임
+    str_write("hello world!");
+
+    // 파일을 닫기
+    file_close();
+}
+
+// 파일 읽기 함수
+// ! 아직 read_line함수를 테스트 하지 않음
+void foo_file_read(void)
+{
+    file_open("test", FILE_READ_WRITE);
+
+    char ch[2];
+
+    axlib_read(STDIN_FD, &ch, 1);
+    ch[1] = '\0'; // 문자 출력을 위해 널 문자 넣어주기
+
+    file_close();
+}
+
+#pragma endregion
+
 void debug_main(void)
 {
     str_write("debug shell main\n");
-    file_crate("test", file_chg_auth("0777"), 4096);
-
-    str_write("pass 1\n");
-    file_open("test", FILE_READ_WRITE);
-    str_write("hello world!");
-    file_close();
-    str_write("pass 3\n");
 
     str_write("\ninf loop\n");
     while (1)
