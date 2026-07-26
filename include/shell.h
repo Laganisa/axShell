@@ -1,7 +1,9 @@
-#ifndef __SHELL_H__
-#define __SHELL_H__
+#ifndef __SHELL_MAIN_H__
+#define __SHELL_MAIN_H__
 
-int shell_main(void);
+int main(void);
+void debug_main(void);
+void shell_main(void);
 void show_help(void);
 
 #endif

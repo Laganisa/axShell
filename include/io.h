@@ -1,5 +1,5 @@
-#ifndef __IO_H__
-#define __IO_H__
+#ifndef __SHELL_IO_H__
+#define __SHELL_IO_H__
 
 #include <types.h>
 
@@ -12,8 +12,10 @@ void int_write(int n);
 // 16진수 출력 함수
 void hex_write(unsigned int n);
 
-static size_t str_len(const char *s);
-int shell_str_eq(const char *lhs, const char *rhs);
+void file_crate(const char *path, int mode, uint32_t size);
+void file_open(const char *path, int flag);
+void file_close(void);
+
 long read_line(char *buf, size_t size);
 uint8_t parse(char *input, char *argv[], int max_args);
 #endif

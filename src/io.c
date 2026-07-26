@@ -9,6 +9,21 @@ void str_write(const char *text)
     axlib_write(STDOUT_FD, text, axlib_strlen(text));
 }
 
+void file_creat(const char *path, int mode, uint32_t size)
+{
+    axlib_creat(path, mode, size);
+}
+
+void file_open(const char *path, int flag)
+{
+    axlib_open(path, flag);
+}
+
+void file_close(void)
+{
+    axlib_close(STDOUT_FD);
+}
+
 void int_write(int n)
 {
     if (n == 0)
@@ -69,7 +84,6 @@ void hex_write(unsigned int n)
     }
 }
 
-
 // ! 여기 수정 필요
 long read_line(char *buf, size_t size)
 {
@@ -86,7 +100,9 @@ long read_line(char *buf, size_t size)
             return ret;
 
         if (ret == 0)
-            continue; // 데이터 없음, 계속 대기
+            // 데이터 없음, 계속 대기
+            // ? 나중에 양보 함수 만들 예정
+            continue;
 
         if (ch == '\n' || ch == '\r')
             break;
@@ -98,30 +114,30 @@ long read_line(char *buf, size_t size)
     return (long)used;
 }
 
-uint8_t parse(char *input, char *argv[], int max_args) 
+uint8_t parse(char *input, char *argv[], int max_args)
 {
     uint8_t i = 0;
     uint8_t argc = 0;
     while (input[i] != '\0')
     {
-        //공백 넘기기
-        if(input[i] == ' ')
+        // 공백 넘기기
+        if (input[i] == ' ')
         {
             i++;
             continue;
         }
-        //NULL확인시 종료
-        if(input[i] == '\0') 
+        // NULL확인시 종료
+        if (input[i] == '\0')
         {
             break;
         }
         argv[argc++] = &input[i]; // 문자열 시작 주소 입력
-        
+
         if (argc >= max_args)
         {
             break;
         }
-        //문자열 마지막 확인 
+        // 문자열 마지막 확인
         while (input[i] != ' ' && input[i] != '\0')
         {
             i++;
