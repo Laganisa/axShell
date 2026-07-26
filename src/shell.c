@@ -4,6 +4,7 @@
 #include "shell.h"
 #include "io.h"
 #include "defs.h"
+#include "tool.h"
 
 void show_help(void)
 {
@@ -56,7 +57,7 @@ void foo_file_write(void)
 {
     // 파일을 열기
     // 파일 이름, 방식
-    file_open("test", FILE_READ_WRITE);
+    file_open("test", file_chg_flag(0, 1, 1, 0));
 
     // 파일을 열었으니
     // 파일 내부에 쓰임
@@ -70,7 +71,7 @@ void foo_file_write(void)
 // ! 아직 read_line함수를 테스트 하지 않음
 void foo_file_read(void)
 {
-    file_open("test", FILE_READ_WRITE);
+    file_open("test", file_chg_flag(0, 1, 1, 0));
 
     char ch[2];
 
