@@ -5,6 +5,7 @@
 #include "io.h"
 #include "defs.h"
 #include "tool.h"
+#include "call.h"
 
 void show_help(void)
 {
@@ -64,7 +65,7 @@ void foo_file_write(void)
     str_write("hello world!");
 
     // 파일을 닫기
-    file_close();
+    file_close(0);
 }
 
 // 파일 읽기 함수
@@ -78,7 +79,7 @@ void foo_file_read(void)
     axlib_read(STDIN_FD, &ch, 1);
     ch[1] = '\0'; // 문자 출력을 위해 널 문자 넣어주기
 
-    file_close();
+    file_close(0);
 }
 
 #pragma endregion
@@ -87,7 +88,7 @@ void debug_main(void)
 {
     str_write("debug shell main\n");
 
-    str_write("\ninf loop\n");
+    str_write("\nshell inf loop\n");
     while (1)
     {
         ;

@@ -3,27 +3,9 @@
 
 #include "io.h"
 #include "defs.h"
+#include "call.h"
 
-void str_write(const char *text)
-{
-    axlib_write(STDOUT_FD, text, axlib_strlen(text));
-}
-
-void file_creat(const char *path, int mode, uint32_t size)
-{
-    axlib_creat(path, mode, size);
-}
-
-void file_open(const char *path, int flag)
-{
-    axlib_open(path, flag);
-}
-
-void file_close(void)
-{
-    axlib_close(STDOUT_FD);
-}
-
+// 숫자 출력 함수
 void int_write(int n)
 {
     if (n == 0)
@@ -51,13 +33,18 @@ void int_write(int n)
     if (is_negative)
         buf[i++] = '-';
 
+    char out[12];
+    int out_len = 0;
     for (int j = 0; j < i; j++)
     {
-        char c = buf[i - 1 - j];
-        axlib_write(STDOUT_FD, &c, 1);
+        out[out_len++] = buf[i - 1 - j];
     }
+    out[out_len] = '\0'; // 문자열 끝 표시
+
+    axlib_write(STDOUT_FD, out, out_len);
 }
 
+// 16진수 출력 함수
 void hex_write(unsigned int n)
 {
     if (n == 0)
@@ -76,12 +63,15 @@ void hex_write(unsigned int n)
         n /= 16;
     }
 
-    // 역순 출력
+    char out[10];
+    int out_len = 0;
     for (int j = 0; j < i; j++)
     {
-        char c = buf[i - 1 - j];
-        axlib_write(STDOUT_FD, &c, 1);
+        out[out_len++] = buf[i - 1 - j];
     }
+    out[out_len] = '\0'; // 문자열 끝 표시
+
+    axlib_write(STDOUT_FD, out, out_len);
 }
 
 // ! 여기 수정 필요
