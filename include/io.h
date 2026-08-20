@@ -4,6 +4,6 @@
 #include <types.h>
 #include <call.h>
 
-long read_line(char *buf, size_t size);
+// long read_line(char *buf, size_t size);
 uint8_t parse(char *input, char *argv[], int max_args);
 #endif

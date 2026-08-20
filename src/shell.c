@@ -35,10 +35,8 @@ int main(void)
     return 0;
 }
 
-void debug_main(void)
+void foo_file()
 {
-    write(STDIO, "%s", "debug shell main\n");
-
     file_creat("test", "0777", 4096);
 
     int fd = file_open("test", 'u', 0);
@@ -55,6 +53,17 @@ void debug_main(void)
     write(STDIO, "%s", ch);
 
     file_close(fd);
+}
+
+void foo_net()
+{
+    // 전송하는거
+    net_send("hi", 0, 2, 7000);
+}
+
+void debug_main(void)
+{
+    write(STDIO, "%s", "debug shell main\n");
 
     write(STDIO, "%s", "\nshell inf loop\n");
     while (1)
@@ -75,7 +84,9 @@ void shell_main(void)
         };
 
         char *arvg[MAX_CMD_TOKEN_LEN];
-        read_line(buffer, BUFFER_SIZE);
+
+        read(0, buffer, BUFFER_SIZE);
+
         uint8_t token_len = parse(buffer, arvg, MAX_CMD_TOKEN_LEN);
 
         if (axlib_strcmp(buffer, "exit") == 0)

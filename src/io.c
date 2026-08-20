@@ -6,6 +6,7 @@
 #include "call.h"
 
 // ! 여기 수정 필요
+/*
 long read_line(char *buf, size_t size)
 {
     if (!buf || size == 0)
@@ -34,6 +35,7 @@ long read_line(char *buf, size_t size)
     buf[used] = '\0';
     return (long)used;
 }
+*/
 
 uint8_t parse(char *input, char *argv[], int max_args)
 {
