@@ -5,75 +5,6 @@
 #include "defs.h"
 #include "call.h"
 
-// 숫자 출력 함수
-void int_write(int n)
-{
-    if (n == 0)
-    {
-        str_write("0");
-        return;
-    }
-
-    char buf[12];
-    int i = 0;
-    int is_negative = 0;
-
-    if (n < 0)
-    {
-        is_negative = 1;
-        n = -n;
-    }
-
-    while (n > 0)
-    {
-        buf[i++] = (n % 10) + '0';
-        n /= 10;
-    }
-
-    if (is_negative)
-        buf[i++] = '-';
-
-    char out[12];
-    int out_len = 0;
-    for (int j = 0; j < i; j++)
-    {
-        out[out_len++] = buf[i - 1 - j];
-    }
-    out[out_len] = '\0'; // 문자열 끝 표시
-
-    axlib_write(STDOUT_FD, out, out_len);
-}
-
-// 16진수 출력 함수
-void hex_write(unsigned int n)
-{
-    if (n == 0)
-    {
-        str_write("0");
-        return;
-    }
-
-    char buf[10];
-    int i = 0;
-    char hex_chars[] = "0123456789ABCDEF";
-
-    while (n > 0)
-    {
-        buf[i++] = hex_chars[n % 16];
-        n /= 16;
-    }
-
-    char out[10];
-    int out_len = 0;
-    for (int j = 0; j < i; j++)
-    {
-        out[out_len++] = buf[i - 1 - j];
-    }
-    out[out_len] = '\0'; // 문자열 끝 표시
-
-    axlib_write(STDOUT_FD, out, out_len);
-}
-
 // ! 여기 수정 필요
 long read_line(char *buf, size_t size)
 {
@@ -84,7 +15,7 @@ long read_line(char *buf, size_t size)
     while (used < size - 1)
     {
         char ch;
-        long ret = axlib_read(STDIN_FD, &ch, 1);
+        long ret = axlib_read(STDIN_FD, &ch, 1, 0);
 
         if (ret < 0)
             return ret;

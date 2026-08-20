@@ -2,16 +2,7 @@
 #define __SHELL_IO_H__
 
 #include <types.h>
-
-// 숫자 출력 함수
-void int_write(int n);
-
-// 16진수 출력 함수
-void hex_write(unsigned int n);
-
-void file_creat(const char *path, int mode, uint32_t size);
-long file_open(const char *path, int flag);
-void file_close(int fd);
+#include <call.h>
 
 long read_line(char *buf, size_t size);
 uint8_t parse(char *input, char *argv[], int max_args);

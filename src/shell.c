@@ -4,12 +4,11 @@
 #include "shell.h"
 #include "io.h"
 #include "defs.h"
-#include "tool.h"
-#include "call.h"
+#include <call.h>
 
 void show_help(void)
 {
-    str_write("");
+    write(STDIO, "%s", "");
 }
 
 // 나중에 바꿀 예정
@@ -25,9 +24,9 @@ static int execute(const char *buffer)
         return CLEAR;
     }
 
-    str_write("unknown command: ");
-    str_write(buffer);
-    str_write("\n");
+    write(STDIO, "%s", "unknown command: ");
+    write(STDIO, "%s", buffer);
+    write(STDIO, "%s", "\n");
 }
 
 int main(void)
@@ -36,59 +35,28 @@ int main(void)
     return 0;
 }
 
-#pragma region test
-
-/*
-    아직 파일 디스크럽터 함수를 만들기 전
-    나중에 디스크럽터 테이블을 만들고 난 뒤 사용법이 수정될 예정
-*/
-
-// 파일 생성 함수
-void foo_file_creat(void)
+void debug_main(void)
 {
-    // 파일 생성
-    // 파일 이름, 파일 권한
-    // ! 주의 파일 권한 함수에 꼭 4바이트 숫자 값을 넣어야함
-    // 파일 크기 B 기준
-    file_creat("test", file_chg_auth("0777"), 4096);
-}
+    write(STDIO, "%s", "debug shell main\n");
 
-// 파일 쓰기 함수
-void foo_file_write(void)
-{
-    // 파일을 열기
-    // 파일 이름, 방식
-    file_open("test", file_chg_flag(0, 1, 1, 0));
+    file_creat("test", "0777", 4096);
 
-    // 파일을 열었으니
-    // 파일 내부에 쓰임
-    str_write("hello world!");
+    int fd = file_open("test", 'u', 0);
 
-    // 파일을 닫기
-    file_close(0);
-}
+    write(fd, "%s", "hello world!");
 
-// 파일 읽기 함수
-// ! 아직 read_line함수를 테스트 하지 않음
-void foo_file_read(void)
-{
-    file_open("test", file_chg_flag(0, 1, 1, 0));
+    write(STDIO, "%s", "hello hi\n");
 
     char ch[2];
 
-    axlib_read(STDIN_FD, &ch, 1);
+    axlib_read(fd, &ch, 1, 0);
     ch[1] = '\0'; // 문자 출력을 위해 널 문자 넣어주기
 
-    file_close(0);
-}
+    write(STDIO, "%s", ch);
 
-#pragma endregion
+    file_close(fd);
 
-void debug_main(void)
-{
-    str_write("debug shell main\n");
-
-    str_write("\nshell inf loop\n");
+    write(STDIO, "%s", "\nshell inf loop\n");
     while (1)
     {
         ;
@@ -100,7 +68,7 @@ void shell_main(void)
 
     while (1)
     {
-        str_write("user_");
+        write(STDIO, "%s", "user_");
 
         char buffer[MAX_CMD_TOKEN_LEN] = {
             0,
@@ -118,15 +86,15 @@ void shell_main(void)
         switch (execute(buffer))
         {
         case HELP:
-            str_write("");
+            write(STDIO, "%s", "");
             break;
         case CLEAR:
-            str_write("\033[2J\033[H");
+            write(STDIO, "%s", "\033[2J\033[H");
             break;
         default:
-            str_write("unknown command: ");
-            str_write(buffer);
-            str_write("\n");
+            write(STDIO, "%s", "unknown command: ");
+            write(STDIO, "%s", buffer);
+            write(STDIO, "%s", "\n");
             break;
         }
     }
