@@ -35,6 +35,8 @@ int main(void)
     return 0;
 }
 
+#pragma region foo
+
 void foo_file()
 {
     file_creat("test", "0777", 4096);
@@ -58,13 +60,20 @@ void foo_file()
 void foo_net()
 {
     // 전송하는거
+    // 문자 인덱스 길이 ip 값
     net_send("hi", 0, 2, 7000);
 }
+
+#pragma endregion
 
 void debug_main(void)
 {
     write(STDIO, "%s", "debug shell main\n");
 
+    char *mem = "hi";
+
+    axlib_ipc_send(mem, 2, 2);
+    write(STDIO, "%s", "mem send\n");
     write(STDIO, "%s", "\nshell inf loop\n");
     while (1)
     {
@@ -108,5 +117,56 @@ void shell_main(void)
             write(STDIO, "%s", "\n");
             break;
         }
+    }
+}
+
+void shell_skeleton()
+{
+    /*
+        부팅 로그
+        일단 간단한 글자 출력
+    */
+
+    while (1)
+    {
+        // 일단 setup용 처리를 먼저 하기
+
+        /*
+            현재 자신의 위치를 말하는 로직
+            즉 스택에 자신의 위치를 넣은뒤
+            순차적으로 순회하며 출력하기
+        */
+
+        /*
+            명령을 입력받고 문자열을
+            파싱한 다음에 분기하기
+        */
+
+        // 수 많은 if 문...
+
+        /*
+            프로세스 관련된 명령들
+            1. 프로세스 생성
+            2. 프로세스 삭제
+            3. 프로세스 권한 변경
+            4. 프로세스 상태 변경
+        */
+
+        /*
+            파일 관련된 명령들
+            1. 파일 생성
+            2. 파일 삭제
+            3. 파일 권한 변경
+        */
+
+        /*
+            네트워크 관련한 명령들
+            ! 나중에 만들거 ! 아직 미정
+            브릿지가 만들어지지 않음
+        */
+
+        /*
+            기타 명령들
+        */
     }
 }
