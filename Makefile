@@ -24,8 +24,8 @@ CFLAGS        += -mcpu=cortex-a72 -ffreestanding -fno-builtin -nostdlib -Wall -W
 LDFLAGS       += -T linker.ld --no-dynamic-linker
 LDLIBS        += $(axLIB_DIR)/build/libaxlib.a
 
-# "axos" 매직 넘버
-FM_EXEC_MAGIC ?= 0x41584F535441534B
+# "axos" 매직 넘버 0x41584F535441534B
+FM_EXEC_MAGIC ?= 0x415853504144453B
 FM_EXEC_MODE  ?= 1
 
 MKDIR_P       ?= mkdir -p

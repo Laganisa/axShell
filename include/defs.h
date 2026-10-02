@@ -2,9 +2,13 @@
 #define __SHELL_DEFS_H__
 
 // 시스템 콜 관련
+
+// 현재 구조랑 호환되지 않음
+/*
 #define STDIN_FD 0
 #define STDOUT_FD 1
 #define STDOUT_ERR 2
+*/
 
 // 배열 크기
 #define BUFFER_SIZE 128
@@ -15,7 +19,6 @@ enum CMD
 {
     HELP = 1,
     CLEAR,
-
 };
 
 #endif
