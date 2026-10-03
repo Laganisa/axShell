@@ -29,9 +29,23 @@ static int execute(const char *buffer)
     write(STDIO, "%s", "\n");
 }
 
+#define B_SHELL_FLAG 1
+
 int main(void)
 {
-    debug_main();
+
+    if (B_SHELL_FLAG == 1)
+    {
+        shell_main();
+    }
+    else if (B_SHELL_FLAG == 2)
+    {
+        debug_main();
+    }
+    else
+    {
+        shell_skeleton();
+    }
     return 0;
 }
 
@@ -72,6 +86,8 @@ void debug_main(void)
 
     char *mem = "hi";
 
+    write(STDIO, "%s", "mem send\n");
+
     axlib_ipc_send(mem, 2, 2);
     write(STDIO, "%s", "mem send\n");
     write(STDIO, "%s", "\nshell inf loop\n");
@@ -88,13 +104,17 @@ void shell_main(void)
     {
         write(STDIO, "%s", "user_");
 
-        char buffer[MAX_CMD_TOKEN_LEN] = {
+        char buffer[BUFFER_SIZE] = {
             0,
         };
 
         char *arvg[MAX_CMD_TOKEN_LEN];
 
-        read(0, buffer, BUFFER_SIZE);
+        if (read(0, buffer, sizeof(buffer)) < 0)
+        {
+            write(STDIO, "%s", "input error\n");
+            continue;
+        }
 
         uint8_t token_len = parse(buffer, arvg, MAX_CMD_TOKEN_LEN);
 
