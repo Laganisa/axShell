@@ -29,26 +29,6 @@ static int execute(const char *buffer)
     write(STDIO, "%s", "\n");
 }
 
-#define B_SHELL_FLAG 1
-
-int main(void)
-{
-
-    if (B_SHELL_FLAG == 1)
-    {
-        shell_main();
-    }
-    else if (B_SHELL_FLAG == 2)
-    {
-        debug_main();
-    }
-    else
-    {
-        shell_skeleton();
-    }
-    return 0;
-}
-
 #pragma region foo
 
 void foo_file()
@@ -71,25 +51,46 @@ void foo_file()
     file_close(fd);
 }
 
-void foo_net()
+static void foo_net()
 {
     // 전송하는거
     // 문자 인덱스 길이 ip 값
     net_send("hi", 0, 2, 7000);
 }
 
+static void foo_ipc()
+{
+    char *mem = "hi";
+
+    axlib_ipc_send(mem, 2, 2);
+}
+
 #pragma endregion
+
+#define B_SHELL_FLAG 1
+
+int main(void)
+{
+
+    if (B_SHELL_FLAG == 1)
+    {
+        shell_main();
+    }
+    else if (B_SHELL_FLAG == 2)
+    {
+        debug_main();
+    }
+    else
+    {
+        shell_skeleton();
+    }
+    return 0;
+}
 
 void debug_main(void)
 {
     write(STDIO, "%s", "debug shell main\n");
 
-    char *mem = "hi";
-
-    write(STDIO, "%s", "mem send\n");
-
-    axlib_ipc_send(mem, 2, 2);
-    write(STDIO, "%s", "mem send\n");
     write(STDIO, "%s", "\nshell inf loop\n");
     while (1)
     {
