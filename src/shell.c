@@ -33,7 +33,7 @@ static int execute(const char *buffer)
 
 void foo_file()
 {
-    file_creat("test", "0777", 4096);
+    file_create("test", "0777", 4096);
 
     int fd = file_open("test", 'u', 0);
 
