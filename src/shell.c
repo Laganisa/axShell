@@ -6,6 +6,8 @@
 #include "defs.h"
 #include <call.h>
 
+void shell_skeleton(void);
+
 void show_help(void)
 {
     write(STDIO, "%s", "");
